@@ -1,0 +1,300 @@
+{
+	"info": {
+		"_postman_id": "7d47397f-5ce9-46ab-9275-878118387d32",
+		"name": "TESTAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TC01_Employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "821020f5-36fb-4b81-8e30-2a5d91f1df90",
+						"exec": [
+							"pm.test(\"TC01_Response is OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var template = `\r",
+							"    <style type=\"text/css\">\r",
+							"        .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"        .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"        .tftable tr {background-color:#ffffff;}\r",
+							"        .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"        .tftable tr:hover {background-color:#e0ffff;}\r",
+							"    </style>\r",
+							"    \r",
+							"    <table class=\"tftable\" border=\"1\">\r",
+							"        <tr>\r",
+							"            <th>ID</th>\r",
+							"            <th>Employee Name</th>\r",
+							"            <th>Employee Salary</th>\r",
+							"            <th>Employee Age</th>\r",
+							"        </tr>\r",
+							"        \r",
+							"        {{#each response.data}}\r",
+							"            <tr id=row_{{@key}} onClick=\"handleClick(this.id)\">\r",
+							"                <td id={{@key}}>{{id}}</td>\r",
+							"                <td>{{employee_name}}</td>\r",
+							"                <td>{{employee_salary}}</td>\r",
+							"                <td>{{employee_age}}</td>\r",
+							"            </tr>\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"\r",
+							"pm.visualizer.set(template, {\r",
+							"    response: pm.response.json()\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/employees",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TC02_Employee ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b267feaa-6bfb-4ed9-af2f-eab0086ea1f1",
+						"exec": [
+							"pm.test(\"TC02_Response is OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var text=\"shipment\";\r",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";\r",
+							"    for( var i=0; i < 8; i++ )\r",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    \r",
+							"pm.globals.set(\"employeename\", text);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/employee/24",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"employee",
+						"24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TC03_CreateEmployee",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "35ba3833-2d16-4d10-aa86-716c2759b6d0",
+						"exec": [
+							"schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"object\",\r",
+							"    \"title\": \"The Root Schema\",\r",
+							"    \"description\": \"The root schema comprises the entire JSON document.\",\r",
+							"    \"required\": [\r",
+							"        \"status\",\r",
+							"        \"data\"\r",
+							"    ],\r",
+							"    \"properties\": {\r",
+							"        \"status\": {\r",
+							"            \"$id\": \"#/properties/status\",\r",
+							"            \"type\": \"string\",\r",
+							"            \"title\": \"The Status Schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": \"\",\r",
+							"            \"examples\": [\r",
+							"                \"success\"\r",
+							"            ]\r",
+							"        },\r",
+							"        \"data\": {\r",
+							"            \"$id\": \"#/properties/data\",\r",
+							"            \"type\": \"object\",\r",
+							"            \"title\": \"The Data Schema\",\r",
+							"            \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"            \"default\": {},\r",
+							"            \"examples\": [\r",
+							"                {\r",
+							"                    \"salary\": \"123\",\r",
+							"                    \"age\": \"23\",\r",
+							"                    \"id\": 60.0,\r",
+							"                    \"name\": \"shipmentkl5jchmq\"\r",
+							"                }\r",
+							"            ],\r",
+							"            \"required\": [\r",
+							"                \"name\",\r",
+							"                \"salary\",\r",
+							"                \"age\",\r",
+							"                \"id\"\r",
+							"            ],\r",
+							"            \"properties\": {\r",
+							"                \"name\": {\r",
+							"                    \"$id\": \"#/properties/data/properties/name\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The Name Schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\",\r",
+							"                    \"examples\": [\r",
+							"                        \"shipmentkl5jchmq\"\r",
+							"                    ]\r",
+							"                },\r",
+							"                \"salary\": {\r",
+							"                    \"$id\": \"#/properties/data/properties/salary\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The Salary Schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\",\r",
+							"                    \"examples\": [\r",
+							"                        \"123\"\r",
+							"                    ]\r",
+							"                },\r",
+							"                \"age\": {\r",
+							"                    \"$id\": \"#/properties/data/properties/age\",\r",
+							"                    \"type\": \"string\",\r",
+							"                    \"title\": \"The Age Schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": \"\",\r",
+							"                    \"examples\": [\r",
+							"                        \"23\"\r",
+							"                    ]\r",
+							"                },\r",
+							"                \"id\": {\r",
+							"                    \"$id\": \"#/properties/data/properties/id\",\r",
+							"                    \"type\": \"integer\",\r",
+							"                    \"title\": \"The Id Schema\",\r",
+							"                    \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                    \"default\": 0,\r",
+							"                    \"examples\": [\r",
+							"                        60\r",
+							"                    ]\r",
+							"                }\r",
+							"            }\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "60aaac5f-209d-4705-bd70-ae72a8124cbd",
+						"exec": [
+							"pm.test(\"TC03_Response is OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var text=\"shipment\";\r",
+							"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";\r",
+							"    for( var i=0; i < 8; i++ )\r",
+							"        text += charset.charAt(Math.floor(Math.random() * charset.length));    \r",
+							"pm.globals.set(\"employeename1\", text);\r",
+							"\r",
+							"pm.test(\"Validating is User schema correct\", function() {\r",
+							"    var response = pm.response.json();\r",
+							"    console.log(response);\r",
+							"    var result=tv4.validateResult(response, schema)\r",
+							"pm.expect(result.valid).to.be.true;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"{{employeename}}\",\"salary\":\"123\",\"age\":\"23\"}"
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/create",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TC04_Update Employee Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20103ade-ba15-4837-83f3-ecc1054440d7",
+						"exec": [
+							"pm.test(\"TC04_Response is OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\":\"{{employeename1}}\",\"salary\":\"1123\",\"age\":\"23\"}"
+				},
+				"url": {
+					"raw": "http://dummy.restapiexample.com/api/v1/update/21",
+					"protocol": "http",
+					"host": [
+						"dummy",
+						"restapiexample",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"update",
+						"21"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
